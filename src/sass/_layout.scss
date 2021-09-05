@@ -1,0 +1,47 @@
+.container {
+  // 用%,螢幕縮小的話他會直接跟著變小;用rem,不會直接改變大小,直到小於指定大小
+  // width: 65%;
+  // width + margin: 0 auto 達成左右置中
+  max-width: 120rem;
+  margin: 8rem auto;
+  background-color: var(--color-grey-dark-1);
+  border-radius: 3px;
+  overflow: hidden;
+  // shadow dark: 0 2 6 3
+  box-shadow: var(--shadow-dark);
+
+  // 開發初期使用, 維持基本大小, 容易處理
+  min-height: 80rem;
+
+  @media only screen and (max-width: $bp-large) {
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+.header {
+  height: 6rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.navbar {
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.note-view {
+  padding: 5rem;
+
+  @media only screen and (max-width: $bp-large) {
+    min-height: calc(100vh - 6rem - 5rem);
+  }
+
+  @media only screen and (max-width: $bp-smallest) {
+    padding: 1rem;
+  }
+}
