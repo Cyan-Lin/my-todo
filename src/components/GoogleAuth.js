@@ -34,11 +34,13 @@ const GoogleAuth = props => {
     });
   }, [onAuthChange]);
 
-  const onSignIn = () => {
+  const onSignIn = e => {
+    e.preventDefault();
     auth.current.signIn();
   };
 
-  const onSignOut = () => {
+  const onSignOut = e => {
+    e.preventDefault();
     auth.current.signOut();
   };
 
