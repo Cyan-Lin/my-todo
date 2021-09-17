@@ -1,11 +1,4 @@
-import {
-  CREATE_NOTE,
-  FETCH_ALL_NOTES,
-  FETCH_NOTES,
-  FETCH_NOTE,
-  EDIT_NOTE,
-  DELETE_NOTE,
-} from '../actions/types.js';
+import { CREATE_NOTE, EDIT_NOTE, DELETE_NOTE } from '../actions/types.js';
 
 export const noteReducer = (state = {}, action) => {
   switch (action.type) {

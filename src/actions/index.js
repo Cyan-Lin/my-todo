@@ -1,11 +1,7 @@
 import _ from 'lodash';
 
-import notes from '../apis/notes.js';
 import {
   CREATE_NOTE,
-  FETCH_ALL_NOTES,
-  FETCH_NOTES,
-  FETCH_NOTE,
   EDIT_NOTE,
   DELETE_NOTE,
   TOGGLE_TAB,
