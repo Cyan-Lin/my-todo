@@ -6,7 +6,7 @@ export const noteReducer = (state = {}, action) => {
       return { ...state, [action.payload.id]: action.payload };
 
     case EDIT_NOTE:
-      const { [action.payload.id]: editedNote, ...otherNotes } = state;
+      const { [action.payload.id]: editedNote } = state;
 
       const formValues = action.payload.formValues;
       Object.keys(formValues).forEach(
