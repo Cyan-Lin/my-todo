@@ -2,26 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import NoteItem from './NoteItem.js';
-import { fetchNotes } from '../actions/index.js';
 
-const NoteView = props => {
-  const { fetchNotes } = props;
-  console.log(props);
-
-  useEffect(() => {
-    console.log('execute');
-    if (props.auth.isSignedIn) {
-      fetchNotes({ userId: props.auth.userId });
-    } else {
-      fetchNotes({ userId: 'auther' });
-    }
-  }, [props.auth, fetchNotes]);
-
-  // console.log(props);
-
+const NoteView = ({ notes, auth }) => {
   const renderList = () => {
-    if (props.auth.isSignedIn)
-      return props.notes.map(note => <NoteItem note={note} key={note.id} />);
+    if (auth.isSignedIn)
+      return notes
+        .filter(note => note.userId === auth.userId)
+        .map((note, i) => <NoteItem note={note} key={i} />);
     else return null;
   };
 
@@ -62,4 +49,4 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps, { fetchNotes })(NoteView);
+export default connect(mapStateToProps)(NoteView);

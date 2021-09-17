@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { editNote, deleteNote } from '../actions/index';
@@ -6,10 +6,9 @@ import NoteForm from './NoteForm.js';
 import Modal from './Modal.js';
 import Overlay from './Overlay.js';
 
-const NoteItem = props => {
-  // console.log(props);
-
+const NoteItem = ({ editNote, deleteNote, note }) => {
   const [isHidden, setIsHidden] = useState(true);
+  const [clicked, setClicked] = useState(true);
 
   const handleOpenForm = e => {
     e.preventDefault();
@@ -21,17 +20,17 @@ const NoteItem = props => {
       return (
         <NoteForm
           initialValues={{
-            label: props.note.label,
-            title: props.note.title,
-            description: props.note.description,
-            pin: props.note.pin,
-            completed: props.note.completed,
+            label: note.label,
+            title: note.title,
+            description: note.description,
+            pin: note.pin,
+            completed: note.completed,
           }}
           onSubmit={onSubmitEdit}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
-          pin={props.note.pin}
-          completed={props.note.completed}
+          pin={note.pin}
+          completed={note.completed}
           showControl={true}
         />
       );
@@ -53,40 +52,42 @@ const NoteItem = props => {
   };
 
   const onSubmitEdit = formValues => {
-    props.editNote(props.note.id, { title: 'No title', ...formValues });
+    editNote(note.id, { title: 'No title', ...formValues });
     setIsHidden(true);
   };
 
   const handleDelete = e => {
     e.stopPropagation();
-    props.deleteNote(props.note.id);
+    deleteNote(note.id);
   };
 
   const handleEdit = (e, state) => {
     e.stopPropagation();
-    props.editNote(props.note.id, { [state]: !props.note[state] });
+    editNote(note.id, { [state]: !note[state] });
+
+    // 不知道為啥不用setState這個component就不會rerender...
+    // 原本有json server的時候會自己rerender...
+    setClicked(!clicked);
   };
 
   return (
     <>
       <li
         onClick={handleOpenForm}
-        className={`notes__item ${props.note.pin ? 'notes__item--pinned' : ''}`}
+        className={`notes__item ${note.pin ? 'notes__item--pinned' : ''}`}
       >
         <div className="notes__content">
-          <h2 className="notes__title">{props.note.title}</h2>
+          <h2 className="notes__title">{note.title}</h2>
           {/* 用<p>很難做到換行,所以後來使用textarea,並改造成<p>的外觀 */}
           <textarea
             className="notes__description"
-            value={props.note.description}
+            value={note.description}
             disabled
           ></textarea>
           <div className="notes__pin">
             <button
               onClick={e => handleEdit(e, 'pin')}
-              className={`btn btn--pin ${
-                props.note.pin ? 'btn--pin--active' : ''
-              }`}
+              className={`btn btn--pin ${note.pin ? 'btn--pin--active' : ''}`}
             >
               &nbsp;
             </button>
@@ -97,7 +98,7 @@ const NoteItem = props => {
           <button
             onClick={e => handleEdit(e, 'completed')}
             className={`btn btn--completed ${
-              props.note.completed && 'btn--completed--active'
+              note.completed && 'btn--completed--active'
             }`}
           >
             &nbsp;

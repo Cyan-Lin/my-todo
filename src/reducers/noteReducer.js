@@ -12,24 +12,15 @@ export const noteReducer = (state = {}, action) => {
     case CREATE_NOTE:
       return { ...state, [action.payload.id]: action.payload };
 
-    case FETCH_ALL_NOTES:
-      const newAllObject = {};
-      action.payload.forEach(note => (newAllObject[note.id] = note));
-      return { ...state, ...newAllObject };
-
-    case FETCH_NOTES:
-      const newObject = {};
-      action.payload.forEach(note => (newObject[note.id] = note));
-      return { ...state, ...newObject };
-
-    // 不可以只return {...state},如果refresh的話所有資料會消失,
-    // 所以必須要return payload才行
-    case FETCH_NOTE:
-      return { ...state, [action.payload.id]: action.payload };
-
     case EDIT_NOTE:
-      return { ...state, [action.payload.id]: action.payload };
+      const { [action.payload.id]: editedNote, ...otherNotes } = state;
 
+      const formValues = action.payload.formValues;
+      Object.keys(formValues).forEach(
+        key => (editedNote[key] = formValues[key])
+      );
+
+      return { ...state, [action.payload.id]: editedNote };
     case DELETE_NOTE:
       const { [action.payload]: deletedNote, ...newState } = state;
       return newState;

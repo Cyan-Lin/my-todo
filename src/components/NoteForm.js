@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Form, Field } from 'react-final-form';
 
 const NoteForm = props => {
-  console.log(props);
   const [openRadioBox, setOpenRadioBox] = useState(false);
 
   const closeRadioBox = e => {
@@ -23,7 +22,6 @@ const NoteForm = props => {
   };
 
   const onSubmit = formValues => {
-    console.log(formValues);
     props.onSubmit(formValues);
   };
 
